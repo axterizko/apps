@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Compras</title>
+</head>
+<body>
+    <section>
+        <h1>Formulario de Registro</h1>
+        <form id="purchaseForm">
+            <div>
+                <label for="fullName">Nombre Completo:</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+            <div>
+                <label for="emailAddress">Correo Electrónico:</label>
+                <input type="email" id="emailAddress" name="emailAddress" required>
+            </div>
+            <div>
+                <label for="item">Artículo:</label>
+                <input type="text" id="item" name="item" required>
+            </div>
+            <div>
+                <label for="price">Precio:</label>
+                <input type="number" id="price" name="price" required>
+            </div>
+            <div>
+                <label for="quantity">Cantidad:</label>
+                <input type="number" id="quantity" name="quantity" required>
+            </div>
+            <button type="submit">Registrar</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Resumen de Compras</h2>
+        <ul id="purchaseList"></ul>
+        <h3>Monto Total: <span id="totalAmount">0</span></h3>
+    </section>
+
+    <script>
+        let accumulatedTotal = 0;
+
+        const computeSubtotal = (unitPrice, units) => unitPrice * units;
+
+        document.querySelector('#purchaseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const fullName = document.querySelector('#fullName').value;
+            const emailAddress = document.querySelector('#emailAddress').value;
+            const item = document.querySelector('#item').value;
+            const price = parseFloat(document.querySelector('#price').value);
+            const quantity = parseInt(document.querySelector('#quantity').value);
+
+            const subtotal = computeSubtotal(price, quantity);
+            accumulatedTotal += subtotal;
+
+            const entry = document.createElement('li');
+            entry.textContent = `Cliente: ${fullName}, Correo: ${emailAddress}, Artículo: ${item}, Precio: ${price}, Cantidad: ${quantity}, Subtotal: ${subtotal}`;
+
+            document.querySelector('#purchaseList').appendChild(entry);
+
+            document.querySelector('#totalAmount').textContent = accumulatedTotal;
+
+            this.reset();
+        });
+    </script>
+</body>
+</html>
